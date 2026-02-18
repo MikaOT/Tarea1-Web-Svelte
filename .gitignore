@@ -1,0 +1,26 @@
+# Dependencias (¡NUNCA SUBIR ESTO!)
+node_modules/
+*/node_modules/
+
+# Variables de entorno y secretos
+.env
+.env.local
+.env.*.local
+
+# Archivos de sistema operativo
+.DS_Store
+Thumbs.db
+
+# Logs y debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# Carpetas de build (si usaras React/Vue/Angular)
+dist/
+build/
+
+# Docker (volúmenes de datos locales)
+mongo-data/
+backend/data/

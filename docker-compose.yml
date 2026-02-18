@@ -1,0 +1,53 @@
+version: "3.8"
+
+services:
+  mongo:
+    image: mongo:6.0.26
+    container_name: mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: productos
+
+  backend:
+    build: ./backend
+    container_name: backend
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - MONGO_URI=mongodb://mongo:27017/productos
+      - REDIS_URL=redis://redis:6379
+      - NODE_ENV=development
+    depends_on:
+      - mongo
+      - redis
+    volumes:
+      # 1. "Espejo": Lo que hay en mi carpeta ./backend se ve en /app dentro del contenedor
+      - ./backend:/app
+      # 2. "Protección": Usa la carpeta node_modules del contenedor, NO la de mi ordenador
+      - /app/node_modules
+    working_dir: /app
+    command: sh -c "npm install && npx nodemon server.js"   # recarga automática en desarrollo
+    #command: npm run dev
+
+  frontend:
+    image: nginx:latest
+    container_name: frontend
+    restart: always
+    ports:
+      - "8080:80"
+    volumes:
+      - ./frontend:/usr/share/nginx/html
+    depends_on:
+      - backend
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+volumes:
+  mongo_data:

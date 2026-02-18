@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Productos App</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#2196f3">
+  <link rel="icon" href="icons/icon-192.png" sizes="192x192">
+</head>
+<body>
+  <h1>App de Productos</h1>
+
+  <!-- NAVIGATION -->
+  <nav id="mainNav" style="display:none;">
+    <button id="navProducts" class="nav-link active">Productos</button>
+    <button id="navUsers" class="nav-link" style="display:none;">Usuarios</button>
+    <button id="logoutBtn" class="nav-link logout">Cerrar Sesión</button>
+  </nav>
+
+  <!-- LOGIN -->
+  <div id="loginForm">
+    <h2>Login</h2>
+    <input type="text" id="username" placeholder="Usuario" />
+    <input type="password" id="password" placeholder="Contraseña" />
+    <button id="loginBtn">Login</button>
+    <p>
+      ¿No tienes cuenta?
+      <a href="#" id="showRegisterLink">Regístrate aquí</a>
+    </p>
+  </div>
+
+  <!-- REGISTRO -->
+  <div id="registerForm" style="display:none;">
+    <h2>Registrarse</h2>
+    <input type="text" id="regUsername" placeholder="Usuario" />
+    <input type="password" id="regPassword" placeholder="Contraseña" />
+    <button id="registerBtn">Regístrate</button>
+    <p>
+      ¿Ya tienes cuenta?
+      <a href="#" id="showLoginLink">Volver al login</a>
+    </p>
+  </div>
+
+  <!-- VISTA PRODUCTOS (Productos + Carrito) -->
+  <div id="productsView" style="display:none; width: 100%; display: flex; flex-direction: column; align-items: center; gap: 2rem;">
+    <!-- PRODUCTOS -->
+    <div id="productosSection">
+      <h2>Lista de productos</h2>
+      <input type="text" id="searchName" placeholder="Buscar producto..." style="margin-bottom: 10px; padding: 5px; width: 100%; max-width: 300px;">
+      <ul id="productosList"></ul>
+  
+      <!-- Formulario de añadir producto (solo admin) -->
+      <div id="adminActions" style="display:none;">
+        <h3>Añadir producto</h3>
+        <input type="text" id="prodNombre" placeholder="Nombre" />
+        <input type="number" id="prodPrecio" placeholder="Precio" />
+        <div class="file-input-wrapper">
+          <input type="file" id="prodImagen" accept="image/*" class="file-input" />
+          <label for="prodImagen" class="file-input-label">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            Seleccionar archivo
+          </label>
+          <span id="fileName">Ningún archivo seleccionado</span>
+        </div>
+        <button id="addProductoBtn">Añadir</button>
+      </div>
+    </div>
+  
+    <!-- CARRITO -->
+    <div id="cartSection">
+      <h2>Mi Carrito</h2>
+      <ul id="cartList"></ul>
+      <p><strong>Total: <span id="cartTotal">0</span>€</strong></p>
+    </div>
+  </div>
+
+  <!-- VISTA USUARIOS (ADMIN) -->
+  <div id="usersSection" style="display:none;">
+    <h2>Gestión de Usuarios</h2>
+    
+    <div id="addUserForm">
+      <h3>Crear Usuario</h3>
+      <input type="text" id="newUsername" placeholder="Usuario" />
+      <input type="password" id="newPassword" placeholder="Contraseña" />
+      <select id="newRole" style="padding: 0.8rem; border-radius: 12px; border: 1px solid #ccc; margin-bottom: 1rem; width: 100%;">
+        <option value="user">Usuario</option>
+        <option value="admin">Administrador</option>
+      </select>
+      <button id="createUserBtn">Crear Usuario</button>
+    </div>
+
+    <h3>Lista de Usuarios</h3>
+    <ul id="usersList"></ul>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>
