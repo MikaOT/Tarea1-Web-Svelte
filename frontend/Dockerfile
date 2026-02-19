@@ -1,5 +1,5 @@
-# Imagen base de Nginx
-FROM nginx:latest
+# Use specific alpine version for reproducibility and small size
+FROM nginx:alpine
 
 # Elimina la configuración por defecto
 RUN rm -rf /usr/share/nginx/html/*

@@ -27,16 +27,15 @@ services:
       - mongo
       - redis
     volumes:
-      # 1. "Espejo": Lo que hay en mi carpeta ./backend se ve en /app dentro del contenedor
+      # 1. Hot Reload: Map local files to container
       - ./backend:/app
-      # 2. "Protección": Usa la carpeta node_modules del contenedor, NO la de mi ordenador
-      - /app/node_modules
+      # 2. Persist node_modules: Use named volume to ensure fresh copy from image on first run
+      - backend_modules_cache:/app/node_modules
     working_dir: /app
-    command: sh -c "npm install && npx nodemon server.js"   # recarga automática en desarrollo
-    #command: npm run dev
+    command: sh -c "npm install && node seed.js && npm run dev"
 
   frontend:
-    image: nginx:latest
+    build: ./frontend
     container_name: frontend
     restart: always
     ports:
@@ -49,5 +48,7 @@ services:
     image: redis:alpine
     ports:
       - "6379:6379"
+
 volumes:
   mongo_data:
+  backend_modules_cache:  # Fresh volume to fix stale/empty node_modules issue

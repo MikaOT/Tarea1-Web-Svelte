@@ -1,24 +1,26 @@
-# 1. Usamos una imagen base ligera (Alpine) para optimizar tamaño
+# 1. Use Node 20 LTS (Alpine) for better stability/compatibility
 FROM node:20-alpine
 
-# 2. Directorio de trabajo
+# 2. Set working directory
 WORKDIR /app
 
-# 3. Aprovechamos la caché de Docker:
-# Copiamos SOLO los archivos de dependencias primero.
-# Si el package.json no cambia, Docker no volverá a ejecutar 'npm install'
+# 3. Cache dependencies: Copy only package files first
 COPY package*.json ./
 
-# 4. Instalamos dependencias
-RUN npm install
+# 4. Clean install (Reproducible build from lockfile)
+RUN npm ci
 
-# 5. Copiamos el resto del código
-# (Gracias al .dockerignore, no copiamos node_modules basura del host)
-COPY . .
+# 5. Fix permissions for safety
+RUN chown -R node:node /app
 
-# 6. Documentamos el puerto correcto
+# 5. Copy source code -- chown to ensure user has access
+COPY --chown=node:node . .
+
+# 6. Switch to non-root user for security
+USER node
+
+# 6. Expose port
 EXPOSE 3000
 
-# 7. Comando por defecto
-# Nota: En desarrollo lo sobrescribiremos con docker-compose para usar nodemon
+# 7. Default command (Good practice to default to start, override in compose for dev)
 CMD ["npm", "start"]
