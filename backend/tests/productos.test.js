@@ -2,8 +2,8 @@ const request = require('supertest');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const app = require('../server');
-const User = require('../models/User');
-const Producto = require('../models/Producto');
+const User = require('../src/models/User');
+const Producto = require('../src/models/Producto');
 
 let adminToken;
 let userToken;
